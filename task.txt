@@ -1,0 +1,79 @@
+
+1) Blackjack
++ Dealer behavior: (Greater > 17 rule)
++ Busting (player/dealer over 21)
++ Push/ties
++ Ace behavior (1 or 11-- whatever makes the best card hand)
++ Hit/stand behavior
++ Dealer vs player-- player makes decisions, dealer follows rules
+
+
+DECISION: 1 deck of 52 or several decks of 52? Single deck with TRACKING
+
+DECISION: How to model cards: "Ace" [1 or 11], 2 to 10, 10 (jack),10 (queen)(,10 
+{"ace": function(){ if (ace == 11) player.total < 21 return if (ace ===1) player > 21}}, {1:1}, {jack: 10}, {queen: 10}
+//Note: Same ace behavior for dealer
+
+2) Backbone
++ Model:
+ourCards = [{value: 2, suit: "hearts"}, {valueadfasd}]
+  * Card model
+    --name: jack/king/queen/ace
+    --suit: hearts, diamonds, clubs, spades
+    --value: 2-10...something special for aces
+    --4 groups of 13 cards [52 total cards]
+
+
+
+
+ * Table collection: cardtable Collection
+
+  * Deck colleciton [dealer deck? player deck?]
+  -- Single deck of 52 cards keep tracking of what's currently in there
+  ---Remove from collection
+
+  * Hands Collection for player
+  --total: compute card values
+  --Listens for "hit event" trigger from playerHandView.
+    --Select a random card from the deck. Put it in the hand collection
+    --Special case: If player goes bust, render dealer's hidden card
+
+
+  * Hands Collection for dealer
+  --total: compute card values
+
++ View:
+  * Table view
+
+    * playerHandView
+    --Hit: emits/trigger "hit event"
+      --hit event function: triggers
+    
+
+    --Stand: emits/trigger "stand event"
+      --hit event function: triggers
+    * dealerHandView
+  
+
+
+Dealer stand conditions:
+1) push: deealer total === player total. It's a tie.
+2) bust: dealer total > 21
+3) Continue random card: dealer total < 17
+4) Dealer Wins:  dealer.total > player.total
+
++ Controller evaluates our hand
++ Initialize
+  --Pick card randomly
++ Hit and Stand Implemtnation
++ Hit: Player gets a new random card
++ 
+
+
+3) CoffeeScript
+
+
+
+resources:
+
+http://wizardofodds.com/play/blackjack/
