@@ -28,7 +28,7 @@ ourCards = [{value: 2, suit: "hearts"}, {valueadfasd}]
 
  * Table collection: cardtable Collection
 
-  * Deck colleciton [dealer deck? player deck?]
+  * Cards colleciton [dealer deck? player deck?]
   -- Single deck of 52 cards keep tracking of what's currently in there
   ---Remove from collection
 
@@ -56,11 +56,27 @@ ourCards = [{value: 2, suit: "hearts"}, {valueadfasd}]
   
 
 
+
+Hit procedure:
+1) give a random card to the player
+2) re-render playerView
+3) recalculate total
+4) alert if necessary
+++
+
+Stand procedure:
+0) Render the dealer's hidden card
+1) Go through Dealer stand conditions
+2) Recalculate each time a card gets added
+
+
 Dealer stand conditions:
+0) Blackjack for dealer: dealer total === 21
 1) push: deealer total === player total. It's a tie.
-2) bust: dealer total > 21
-3) Continue random card: dealer total < 17
-4) Dealer Wins:  dealer.total > player.total
+2) Continue random card: dealer total < 17
+2a) bust: dealer total > 21
+2b) recheck for base cases
+3) Dealer Wins:  dealer.total > player.total
 
 + Controller evaluates our hand
 + Initialize
@@ -68,6 +84,16 @@ Dealer stand conditions:
 + Hit and Stand Implemtnation
 + Hit: Player gets a new random card
 + 
+
+helpers function:
+* Over/under 21? >> alert busts/pushes/etc
+* currentTotal Calculation: Calculate card value for player or dealer, adjust for ace behavior if ace is in their deck.
+* win/lose alert
+* give a random card (that hasn't been drawn yet) to whatever model needs it (dealer or player) remove()
+CardsCollection.at(Math.random*CardsCollection.length);
+
+
+
 
 
 3) CoffeeScript
