@@ -11,17 +11,8 @@ class window.Hand extends Backbone.Collection
     # recalculate 
     @scores()
     if !@isDealer
-      if @minScore() > 21
-        console.log("Player busted. LOSE")
-        @.trigger("loss")
+      @trigger("checkPlayerBust")
   
-
-  stand: ->
-    # give random card to player 
-    if !@isDealer
-      @trigger("standEvent")
-      
-
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get('value') is 1
