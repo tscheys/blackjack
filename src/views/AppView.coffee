@@ -1,6 +1,11 @@
 class window.AppView extends Backbone.View
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <button class="bet-button">Bet $10</button>
+    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> 
+      <button class="bet-button" data-amount="10">Bet $10</button>
+      <button class="bet-button" data-amount="20">Bet $20</button>
+      <button class="bet-button" data-amount="30">Bet $30</button>
+      <button class="bet-button" data-amount="50">Bet $50</button>
+      <button class="bet-button" data-amount="100">Bet $100</button>  
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
     <div class="wager">Wager: <%= wager %></div>
@@ -11,16 +16,16 @@ class window.AppView extends Backbone.View
   events:
     'click .hit-button': -> @model.get('playerHand').hit()
     'click .stand-button': -> @model.standFunc()
-    'click .bet-button' : ->  @model.makeWager()
+    'click .bet-button' : (e) -> 
+      ref = Number($(e.target).data("amount"))
+      @model.makeWager(ref)
 
   initialize: ->
     @render()
     @listenTo @model, 'change', @render
-    @model
-      .on "lossFunc", @reportFunc 
 
   render: ->
-    console.log @model.get("wager")
+    console.log @model
     variables = 
       wager: @model.get("wager")
       playerBudget: @model.get("playerBudget")
