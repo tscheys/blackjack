@@ -5,29 +5,28 @@ class window.App extends Backbone.Model
     _.bindAll @
 
     @set 'deck', deck = new Deck()
-    # this.set('currentSong', new SongModel());
-
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
-    #@get 'playerHand'.on @lossFunc
-    @get 'playerHand'
-      .on 'loss', @lossFunc  
-    @get 'dealerHand'
-      .on 'dealerLoss', @dealerLossFunc  
-    @get 'playerHand'
-      .on 'standEvent', @standFunc 
-
     @set 'playerBudget', 1000
     @set 'wager', 0
-    #this.get("playerHand").on("loss", this.lossFunc,)
-  updateWager: (amount) ->
-    newAmount = @get 'wager' + amount
-    @set 'wager', newAmount
 
-  makeWager: ->
-   @deductFromBudget(10)
-   @updateWager(10)
-   @trigger("updateBudgetWager")
+    @get 'playerHand' 
+      .on 'checkPlayerBust', @checkPlayerBust
+    
+
+  checkPlayerBust: ->
+    scoreCheck = @get("playerHand").minScore()
+
+    if scoreCheck == 21 
+      alert('Blackjack!! Player wins!')
+
+    if scoreCheck > 21 
+      alert('Busted over 21. You lose.')
+
+  makeWager: (amount) ->
+   newAmount = @get 'wager' + amount
+   @set 'wager', newAmount
+   @deductFromBudget(amount)
 
   addToBudget: (amount) ->
     newAmount = @get 'playerBudget' + amount
@@ -37,41 +36,11 @@ class window.App extends Backbone.Model
     newAmount = @get 'playerBudget' - amount
     @set 'playerBudget', newAmount
 
-  #this.set("playerBudget", this.get("playerBudget") - amount)  
-  lossFunc: ->
-    @trigger("lossFunc")
-
-  dealerLossFunc: ->
-    @trigger("dealerLossFunc")
-
-  pushFunc: ->
-    alert 'push- tie!'
-
   endGame: (input) ->
     alert input
 
 
-  
-  dealerStanding: -> 
-    dealerScore = @get 'dealerHand'
-      .minScore()
-
-    playerScore = @get 'playerHand'
-      .minScore()
-    
-    @get 'dealerHand' 
-      .hit()
-    
-
-    if dealerScore >= 17
-      if dealerScore == 21
-        @trigger 'lossfunc'
-    if dealerScore == playerScore
-        @trigger 'pushFunc'
-
-
   standFunc: ->
-    #All the conditions
     @get 'dealerHand'
       .at(0)
         .flip()
