@@ -14,11 +14,7 @@ class window.Hand extends Backbone.Collection
       if @minScore() > 21
         console.log("Player busted. LOSE")
         @.trigger("loss")
-    else 
-      if @minScore() > 21
-        console.log("dealer busted. WIN")
-        @.trigger("dealerLoss")
-
+  
 
   stand: ->
     # give random card to player 
@@ -46,5 +42,6 @@ class window.Hand extends Backbone.Collection
 
 #var dealer = new Hand ([card, card, card], ourDeck, true]);
 #var player = new Hand ([card, card, card], ourDeck, false]);
+
 
 
