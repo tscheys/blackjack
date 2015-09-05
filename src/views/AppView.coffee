@@ -10,31 +10,22 @@ class window.AppView extends Backbone.View
 
   events:
     'click .hit-button': -> @model.get('playerHand').hit()
-    'click .stand-button': -> @model.get('playerHand').stand()
+    'click .stand-button': -> @model.standFunc()
     'click .bet-button' : ->  @model.makeWager()
 
   initialize: ->
     @render()
+    @listenTo @model, 'change', @render
     @model
-      .on "lossFunc", @reportFunc
-    @model
-      .on "updateBudgetWager", @render
-    
+      .on "lossFunc", @reportFunc 
 
   render: ->
-
-    theWager = @model
-      .get("wager")
-
-    theBudget = @model
-      .get("playerBudget")
-
+    console.log @model.get("wager")
     variables = 
-      wager: theWager
-      playerBudget: theBudget
+      wager: @model.get("wager")
+      playerBudget: @model.get("playerBudget")
 
-    
-    helper = @template
+  
     @$el.children().detach()
     @$el.html @template(variables)
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
