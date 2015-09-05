@@ -95,8 +95,9 @@ CardsCollection.at(Math.random*CardsCollection.length);
 
 
 
-
-3) CoffeeScript
+##TODO:
+1) Separate busted alerts out of collection for hit
+2) 
 
 
 
