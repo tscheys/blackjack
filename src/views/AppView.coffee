@@ -11,10 +11,22 @@ class window.AppView extends Backbone.View
 
   initialize: ->
     @render()
+    @model
+      .on "lossFunc", @reportFunc
+    @model
+      .on "dealerLossFunc", @dealerreportFunc
+    #this.model.on("lossFunc", function(){ do something})
 
   render: ->
     @$el.children().detach()
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+
+  reportFunc: ->
+    alert('Player busted. YOU LOSE')
+
+  dealerreportFunc: ->
+    alert('Dealer busted. YOU WIN')
+
 
