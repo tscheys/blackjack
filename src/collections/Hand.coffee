@@ -13,9 +13,12 @@ class window.Hand extends Backbone.Collection
     if !@isDealer
       if @minScore() > 21
         console.log("Player busted. LOSE")
+        @.trigger("loss")
     else 
       if @minScore() > 21
         console.log("dealer busted. WIN")
+        @.trigger("dealerLoss")
+
 
 
 
