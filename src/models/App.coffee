@@ -17,9 +17,27 @@ class window.App extends Backbone.Model
     @get 'playerHand'
       .on 'standEvent', @standFunc 
 
+    @set 'playerBudget', 1000
+    @set 'wager', 0
     #this.get("playerHand").on("loss", this.lossFunc,)
+  updateWager: (amount) ->
+    newAmount = @get 'wager' + amount
+    @set 'wager', newAmount
 
+  makeWager: ->
+   @deductFromBudget(10)
+   @updateWager(10)
+   @trigger("updateBudgetWager")
 
+  addToBudget: (amount) ->
+    newAmount = @get 'playerBudget' + amount
+    @set 'playerBudget', newAmount
+
+  deductFromBudget: (amount) ->
+    newAmount = @get 'playerBudget' - amount
+    @set 'playerBudget', newAmount
+
+  #this.set("playerBudget", this.get("playerBudget") - amount)  
   lossFunc: ->
     @trigger("lossFunc")
 
