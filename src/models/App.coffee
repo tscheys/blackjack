@@ -18,23 +18,30 @@ class window.App extends Backbone.Model
     scoreCheck = @get("playerHand").minScore()
 
     if scoreCheck == 21 
+      @win()
       alert('Blackjack!! Player wins!')
 
     if scoreCheck > 21 
       alert('Busted over 21. You lose.')
 
   makeWager: (amount) ->
-   newAmount = @get 'wager' + amount
+   newAmount = (@get 'wager') + amount
    @set 'wager', newAmount
    @deductFromBudget(amount)
 
   addToBudget: (amount) ->
-    newAmount = @get 'playerBudget' + amount
+    newAmount = (@get 'playerBudget') + amount
+    console.log newAmount
     @set 'playerBudget', newAmount
 
   deductFromBudget: (amount) ->
-    newAmount = @get 'playerBudget' - amount
+    newAmount = (@get 'playerBudget') - amount
     @set 'playerBudget', newAmount
+
+  win: -> 
+    winnings = (@get 'wager') * 2
+    console.log(winnings)
+    @addToBudget winnings
 
   endGame: (input) ->
     alert input
@@ -63,6 +70,7 @@ class window.App extends Backbone.Model
           @endGame 'Push its a tie!'
           break
         if dealerScore >= 21
+          @win()
           @endGame 'Player WINS! Dealer busts.'
           break
         if dealerScore > playerScore
@@ -70,6 +78,7 @@ class window.App extends Backbone.Model
           break
         if dealerScore < playerScore
           @endGame "Player WINS!"
+          @win()
           break
 
       @get 'dealerHand' 
