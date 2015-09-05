@@ -93,6 +93,28 @@ helpers function:
 CardsCollection.at(Math.random*CardsCollection.length);
 
 
+Betting:
+1) View
+  + BET BUTTON ($10)
+  + Player's budget
+  + Wagered amount
+  + BET IN VIEW'S EVENT HASH
+2) App Model
+  + Store the model
+  1) Deduct from budget
+  2) Add to budget
+  3) dont worry about multipe rounds or resetting
+
+Helpers:
+1) Initalize betting
+  - Subtract from playerBudget
+  - Add to wager
+  - RENDER ON SCREEN
+
+2) Update betting: -- win or lose
+  + win: increment bankroll with 2x wager
+  + lose: nothing happens
+
 
 
 ##TODO:
