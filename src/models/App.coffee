@@ -17,9 +17,7 @@ class window.App extends Backbone.Model
     @get 'playerHand'
       .on 'standEvent', @standFunc 
 
-
     #this.get("playerHand").on("loss", this.lossFunc,)
-
 
 
   lossFunc: ->
@@ -29,13 +27,71 @@ class window.App extends Backbone.Model
     @trigger("dealerLossFunc")
 
   pushFunc: ->
-    alert 'push'
+    alert 'push- tie!'
+
+  endGame: (input) ->
+    alert input
+
+
+  
+  dealerStanding: -> 
+    dealerScore = @get 'dealerHand'
+      .minScore()
+
+    playerScore = @get 'playerHand'
+      .minScore()
+    
+    @get 'dealerHand' 
+      .hit()
+    
+
+    if dealerScore >= 17
+      if dealerScore == 21
+        @trigger 'lossfunc'
+    if dealerScore == playerScore
+        @trigger 'pushFunc'
+
 
   standFunc: ->
     #All the conditions
     @get 'dealerHand'
       .at(0)
         .flip()
+
+    dealerScore = @get 'dealerHand'
+      .minScore()
+
+    while (true)
+      dealerScore = @get 'dealerHand'
+        .minScore()
+
+      playerScore = @get 'playerHand'
+        .minScore()
+      
+      if dealerScore >= 17
+        if dealerScore == 21
+          @endGame 'Dealer got blackjack'
+          break
+        if dealerScore == playerScore
+          @endGame 'Push its a tie!'
+          break
+        if dealerScore >= 21
+          @endGame 'Player WINS! Dealer busts.'
+          break
+        if dealerScore > playerScore
+          @endGame 'Player LOSES. Dealer wins'
+          break
+        if dealerScore < playerScore
+          @endGame "Player WINS!"
+          break
+
+      @get 'dealerHand' 
+        .hit()
+
+
+
+
+
 
     # if (this.get('dealerHand').minScore() >= 17){
     #     if(this.get('dealerHand').minScore() === 21) {
@@ -103,7 +159,6 @@ class window.App extends Backbone.Model
       # if dealer score > 21 
         # you WIN Dealer busts
       # do checks 
-
 
 
 
