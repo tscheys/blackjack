@@ -20,6 +20,11 @@ class window.Hand extends Backbone.Collection
         @.trigger("dealerLoss")
 
 
+  stand: ->
+    # give random card to player 
+    if !@isDealer
+      @trigger("standEvent")
+      
 
 
   hasAce: -> @reduce (memo, card) ->
