@@ -23,9 +23,13 @@ class window.App extends Backbone.Model
 
     if scoreCheck > 21 
       alert('Busted over 21. You lose.')
+      @loanSharkVisit()
+
 
   makeWager: (amount) ->
    newAmount = (@get 'wager') + amount
+   if @get("playerBudget") < 0
+    alert 'Warning: You will be visited by the Loan Shark'
    @set 'wager', newAmount
    @deductFromBudget(amount)
 
@@ -40,8 +44,10 @@ class window.App extends Backbone.Model
 
   win: -> 
     winnings = (@get 'wager') * 2
-    console.log(winnings)
     @addToBudget winnings
+
+  loanSharkVisit: ->
+    this.trigger("loanSharkVisit")
 
   endGame: (input) ->
     alert input
@@ -65,6 +71,9 @@ class window.App extends Backbone.Model
       if dealerScore >= 17
         if dealerScore == 21
           @endGame 'Dealer got blackjack'
+
+          if @get("playerBudget") < 0
+            @loanSharkVisit()
           break
         if dealerScore == playerScore
           @endGame 'Push its a tie!'
@@ -75,6 +84,8 @@ class window.App extends Backbone.Model
           break
         if dealerScore > playerScore
           @endGame 'Player LOSES. Dealer wins'
+          if @get("playerBudget") < 0
+            @loanSharkVisit()
           break
         if dealerScore < playerScore
           @endGame "Player WINS!"
